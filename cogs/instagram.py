@@ -1,4 +1,4 @@
-import discord  , requests , random
+import discord  , requests , random , httpx
 from datetime import datetime
 from discord.ext import commands
 
@@ -18,8 +18,10 @@ class Instagram(commands.Cog):
         with open('proxies.txt' , 'r') as file :
             proxies=file.readlines()
         proxy_rl = f"http://{random.choice(proxies)}"
+        proxy_username = "tpfocsiy"
+        proxy_password="z8scv7l8rsv9"
         url = f"https://www.instagram.com/{self.target}/"
-        response = requests.get(url=url , proxies={"http" : proxy_rl}).text
+        response = httpx.get(url=url , proxies={"http" : proxy_rl } , auth=(proxy_username, proxy_password)).text
         get = "Instagram photos and videos"
         if get in response :
             return 'TAKEN'
@@ -87,16 +89,17 @@ class Instagram(commands.Cog):
     @commands.slash_command(name='sethelp' , description="Information about settings")
     @commands.is_owner()
     async def information(self , ctx):
-        await ctx.response.send_message(content="```Note 📵 \n - I'm not the responsable of anything \n - If u get anything send it here [telegram](t.me/telllonym) \n - Bot is in devellopement status \n - Owner : ASTA 404 ```")
+        await ctx.response.send_message("Please Send info as this in this command **setsetting**\n```target:username:password:email:bio:name```")
     @commands.slash_command(name="setsetting" , description="Set setting of auto")
     @commands.is_owner()
-    async def setsetting(self,interaction:discord.Interaction , traget , user , password , email , bio , name) :
-        self.target = target
-        self.username = user
-        self.password=password
-        self.email=email
-        self.bio=bio
-        self.name=name
+    async def setsetting(self,interaction:discord.Interaction , j) :
+        info = j.split(':')
+        self.target = info[0]
+        self.username = info[1]
+        self.password=info[2]
+        self.email=info[3]
+        self.bio=info[4]
+        self.name=info[5]
         await interaction.response.send_message(content="`Settings are saved`" , ephemeral=True)
     @commands.slash_command(name="deletesettings" , description="delete all settings")
     @commands.is_owner()
@@ -113,7 +116,7 @@ class Instagram(commands.Cog):
     @commands.is_owner()
     async def setting(self,interaction:discord.Interaction) :
         if self.name is None :
-            return await interaction.response.send_message(content="`You don't have any setting saved`" , ephemeral=True)
+            return await interaction.response.send_message(content="You don't have any saved" , ephemeral=True)
         user = self.username
         password = self.password
         email = self.email
