@@ -19,7 +19,9 @@ async def load():
             except Exception as e:
                 print(f'Failed to load {cog_name} cog. Error: {e}')
 
-
+@bot.event
+async def on_ready():
+    print("BOT IS ONLINE NOW {}".format(bot.user.display_name))
 def main():
     loop = asyncio.get_event_loop()
     loop.run_until_complete(load())
