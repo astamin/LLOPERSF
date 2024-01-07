@@ -1,7 +1,6 @@
 import discord  , requests , random , httpx
 from datetime import datetime
 from discord.ext import commands
-
 class Instagram(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -86,13 +85,13 @@ class Instagram(commands.Cog):
         else :
             return "NO"    
         
-    @commands.slash_command(name='sethelp' , description="Information about settings")
+    @commands.command(name='sethelp' , description="Information about settings")
     @commands.is_owner()
     async def information(self , ctx):
-        await ctx.response.send_message("Please Send info as this in this command **setsetting**\n```target:username:password:email:bio:name```")
-    @commands.slash_command(name="setsetting" , description="Set setting of auto")
+        await ctx.send(content="```Note 📵 \n - I'm not the responsable of anything \n - If u get anything send it here [telegram](t.me/telllonym) \n - Bot is in devellopement status \n - Owner : [ASTA 404](instagram.com/powerfulllasta) ```"  )
+    @commands.command(name="setsetting" , description="Set setting of auto")
     @commands.is_owner()
-    async def setsetting(self,interaction:discord.Interaction , j) :
+    async def setsetting(self,interaction , j) :
         info = j.split(':')
         self.target = info[0]
         self.username = info[1]
@@ -100,8 +99,8 @@ class Instagram(commands.Cog):
         self.email=info[3]
         self.bio=info[4]
         self.name=info[5]
-        await interaction.response.send_message(content="`Settings are saved`" , ephemeral=True)
-    @commands.slash_command(name="deletesettings" , description="delete all settings")
+        await interaction.send(content="`Settings are saved`" , ephemeral=True)
+    @commands.command(name="deletesettings" , description="delete all settings")
     @commands.is_owner()
     async def deletesettings(self,ctx) :
         self.target = None
@@ -110,13 +109,13 @@ class Instagram(commands.Cog):
         self.email=None
         self.bio=None
         self.name=None
-        await ctx.response.send_message(content="`settings was been deleted`" , ephemeral=True)
+        await ctx.send(content="`settings was been deleted`")
 
-    @commands.slash_command(name="seesettings" , description="see saved settings")
+    @commands.command(name="seesettings" , description="see saved settings")
     @commands.is_owner()
-    async def setting(self,interaction:discord.Interaction) :
+    async def setting(self,interaction) :
         if self.name is None :
-            return await interaction.response.send_message(content="You don't have any saved" , ephemeral=True)
+            return await interaction.send(content="`You don't have any saved`")
         user = self.username
         password = self.password
         email = self.email
