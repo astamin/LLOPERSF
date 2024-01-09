@@ -1,10 +1,19 @@
-import discord
-import os
-import asyncio
-from discord.ext import commands
-from dotenv import load_dotenv
+try : 
+    import discord
+    import os
+    import asyncio
+    from discord.ext import commands
+    from dotenv import load_dotenv
+except :
+    import os
+    os.system('pip install -r requirements.txt')
+    import discord
+    import os
+    import asyncio
+    from discord.ext import commands
+    from dotenv import load_dotenv
 load_dotenv()
-TOKEN = os.getenv('token')
+TOKEN = input('Enter Token : ')
 class MyHelpCommand(commands.DefaultHelpCommand):
     async def send_bot_help(self, mapping):
         pass
